@@ -92,6 +92,7 @@ Doorkeeper.configure do
   #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w(authorization_code client_credentials)
+  grant_flows %w(password)
 
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.
@@ -101,5 +102,11 @@ Doorkeeper.configure do
   # end
 
   # WWW-Authenticate Realm (default "Doorkeeper").
-  # realm "Doorkeeper"
+  realm 'Deyeen'
+
+  resource_owner_from_credentials do |_routes|
+    ap params
+    u = User.find_by(username: params[:username])
+    u if u && u.authenticate(params[:password])
+  end
 end

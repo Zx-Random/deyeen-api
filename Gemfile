@@ -13,8 +13,7 @@ group :development, :test do
   gem 'spring'
 end
 gem 'awesome_print'
-gem 'devise'
-gem 'devise-i18n'
+gem 'bcrypt'
 gem 'pg'
 gem 'puma'
 gem 'pundit'
@@ -48,3 +47,7 @@ group :test do
 end
 
 gem 'doorkeeper'
+gem 'grape'
+gem 'grape-roar'
+gem 'grape-rails-routes', '~> 1.0'
+gem 'hashie_rails'
