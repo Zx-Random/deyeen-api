@@ -48,6 +48,5 @@ end
 
 gem 'doorkeeper'
 gem 'grape'
-gem 'grape-roar'
-gem 'grape-rails-routes', '~> 1.0'
+gem 'grape-rabl'
 gem 'hashie_rails'

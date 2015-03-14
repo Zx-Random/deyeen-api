@@ -1,12 +1,16 @@
 module API
   module V1
     class Users < Grape::API
-      include API::V1::Defaults
-
-      namespace :users do
+      resource :users do
         desc '返回所有的用户'
-        get '/' do
-          User.all
+        get '/', rabl: 'api/v1/users/index' do
+          @users = User.all
+        end
+
+        desc '返回指定用户信息'
+        get '/:id' do
+          @user = User.find params[:id]
+          render rabl: 'api/v1/users/show'
         end
 
         desc '创建账号'
