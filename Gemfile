@@ -48,5 +48,8 @@ end
 
 gem 'doorkeeper'
 gem 'grape'
-gem 'grape-rabl'
+gem 'roar'
+gem 'grape-roar'
+gem 'roar-rails'
 gem 'hashie_rails'
+gem 'kaminari', :require => 'kaminari/grape'

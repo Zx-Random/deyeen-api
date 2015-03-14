@@ -1,0 +1,8 @@
+zh-CN:
+  activerecord:
+    models:
+      user: 用户
+    attributes:
+      user:
+        username: 用户名
+        password: 密码

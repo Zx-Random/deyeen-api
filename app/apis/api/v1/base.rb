@@ -3,10 +3,10 @@ module API
     class Base < Grape::API
       use ActionDispatch::RemoteIp
       # common Grape settings
+      prefix :api
       version 'v1', using: :path
       format :json
-
-      formatter :json, Grape::Formatter::Rabl
+      formatter :json, Grape::Formatter::Roar
 
       # global handler for simple not found case
       rescue_from ActiveRecord::RecordNotFound do |e|
@@ -17,12 +17,28 @@ module API
         error_response(message: e.message, status: 422)
       end
 
+      rescue_from ActiveRecord::RecordInvalid do |e|
+        ap e.record.errors.to_hash(true)
+        error_message = []
+        e.record.errors.to_hash(true).each do |k, v|
+          error_message << {
+            id:     nil,
+            status: 422,
+            code:   API::VALIDATION_ERROR,
+            title:  v,
+            detail: v,
+            links:  nil,
+            paths:  k
+          }
+        end
+        error_response(message: { errors: error_message }, status: 422)
+      end
+
       # global exception handler, used for error notifications
       rescue_from :all do |e|
         if Rails.env.development?
           raise e
         else
-          Raven.capture_exception(e)
           error_response(message: "Internal server error", status: 500)
         end
       end
@@ -35,6 +51,18 @@ module API
       helpers do
         def client_ip
           env["action_dispatch.remote_ip"].to_s
+        end
+
+        def permitted_params
+          @permitted_params ||= declared(params, include_missing: false)
+        end
+
+        def represent(resource, env)
+          BaseRepresenter.represent(resource, env)
+        end
+
+        def represent_collection(collection, env)
+          BaseRepresenter.represent_collection(collection, env)
         end
       end
 

@@ -3,14 +3,18 @@ module API
     class Users < Grape::API
       resource :users do
         desc '返回所有的用户'
-        get '/', rabl: 'api/v1/users/index' do
-          @users = User.all
+        get '/' do
+          @users = User.page(params[:page])
+
+          # present @users, with: UsersRepresenter
+          UsersRepresenter.represent(@users, env)
+          # present Kaminari.paginate_array(@users).page(params[:page]).per(params[:size]), with: UsersRepresenter
         end
 
         desc '返回指定用户信息'
         get '/:id' do
           @user = User.find params[:id]
-          render rabl: 'api/v1/users/show'
+          present @user, with: UserRepresenter
         end
 
         desc '创建账号'
@@ -21,7 +25,8 @@ module API
           end
         end
         post '/' do
-          User.create!(params[:user])
+          user_params = ActionController::Parameters.new(params[:user]).permit(:username, :password)
+          User.create!(user_params)
         end
       end
     end
