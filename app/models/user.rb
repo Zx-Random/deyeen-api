@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include HasUUID
+
   has_secure_password
 
   enum role: [:user, :vip, :admin]
