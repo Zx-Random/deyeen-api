@@ -22,13 +22,8 @@ module API
         error_message = []
         e.record.errors.to_hash(true).each do |k, v|
           error_message << {
-            id:     nil,
-            status: 422,
-            code:   API::VALIDATION_ERROR,
-            title:  v,
-            detail: v,
-            links:  nil,
-            paths:  k
+            field:   k,
+            message: v
           }
         end
         error_response(message: { errors: error_message }, status: 422)

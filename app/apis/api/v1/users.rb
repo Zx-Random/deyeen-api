@@ -4,17 +4,15 @@ module API
       resource :users do
         desc '返回所有的用户'
         get '/' do
-          @users = User.page(params[:page])
+          users = User.page(params[:page])
 
-          # present @users, with: UsersRepresenter
-          UsersRepresenter.represent(@users, env)
-          # present Kaminari.paginate_array(@users).page(params[:page]).per(params[:size]), with: UsersRepresenter
+          UsersRepresenter.represent(users, env)
         end
 
         desc '返回指定用户信息'
         get '/:id' do
-          @user = User.find params[:id]
-          present @user, with: UserRepresenter
+          user = User.find params[:id]
+          present user, with: UserRepresenter
         end
 
         desc '创建账号'
@@ -26,7 +24,8 @@ module API
         end
         post '/' do
           user_params = ActionController::Parameters.new(params[:user]).permit(:username, :password)
-          User.create!(user_params)
+          user        = User.create!(user_params)
+          UserRepresenter.represent(user, env)
         end
       end
     end

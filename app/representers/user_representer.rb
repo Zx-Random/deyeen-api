@@ -1,5 +1,5 @@
 module UserRepresenter
-  include Roar::JSON
+  include Roar::JSON::HAL
   include Roar::Hypermedia
   include Grape::Roar::Representer
 

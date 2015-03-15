@@ -14,7 +14,7 @@ group :development, :test do
 end
 gem 'awesome_print'
 gem 'bcrypt'
-gem 'pg'
+gem 'mysql2'
 gem 'puma'
 gem 'pundit'
 group :development do
