@@ -5,13 +5,13 @@ module API
         desc '返回所有的用户'
         get '/' do
           users = User.page(params[:page])
-          UsersRepresenter.represent(users, env)
+          UsersRepresenter.for_collection.prepare(users)
         end
 
         desc '返回指定用户信息'
         get '/:uuid' do
           user = User.find_by!(uuid: params[:uuid])
-          present user, with: UserRepresenter
+          UserRepresenter.prepare(user)
         end
 
         desc '创建账号'
@@ -23,7 +23,7 @@ module API
         end
         post '/' do
           user = User.create!(permitted_params[:user])
-          UserRepresenter.represent(user, env)
+          UserRepresenter.prepare(user)
         end
       end
     end

@@ -1,10 +1,11 @@
-require 'paginated_representer'
+# require 'paginated_representer'
 
 module UsersRepresenter
-  include Roar::JSON::HAL
-  include Roar::Hypermedia
+  include Roar::JSON::JSONAPI
   include Grape::Roar::Representer
-  include PaginatedPresenter
 
-  collection :entries, extend: UserRepresenter, as: :users, embedded: true
+  type :users
+
+  property :uuid, as: :id
+  property :username
 end
