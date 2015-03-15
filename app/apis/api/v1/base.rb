@@ -51,14 +51,6 @@ module API
         def permitted_params
           @permitted_params ||= declared(params, include_missing: false)
         end
-
-        def represent(resource, env)
-          BaseRepresenter.represent(resource, env)
-        end
-
-        def represent_collection(collection, env)
-          BaseRepresenter.represent_collection(collection, env)
-        end
       end
 
       mount API::V1::Users

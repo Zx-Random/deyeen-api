@@ -3,12 +3,12 @@ module UserRepresenter
   include Roar::Hypermedia
   include Grape::Roar::Representer
 
-  property :id
+  property :uuid, from: :id
   property :username
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
     version = opts[:env]['api.version']
-    "#{request.base_url}/api/#{version}/users/#{id}"
+    "#{request.base_url}/api/#{version}/users/#{uuid}"
   end
 end

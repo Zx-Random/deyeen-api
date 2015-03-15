@@ -5,13 +5,12 @@ module API
         desc '返回所有的用户'
         get '/' do
           users = User.page(params[:page])
-
           UsersRepresenter.represent(users, env)
         end
 
         desc '返回指定用户信息'
-        get '/:id' do
-          user = User.find params[:id]
+        get '/:uuid' do
+          user = User.find_by!(uuid: params[:uuid])
           present user, with: UserRepresenter
         end
 
@@ -23,8 +22,7 @@ module API
           end
         end
         post '/' do
-          user_params = ActionController::Parameters.new(params[:user]).permit(:username, :password)
-          user        = User.create!(user_params)
+          user = User.create!(permitted_params[:user])
           UserRepresenter.represent(user, env)
         end
       end
