@@ -2,6 +2,7 @@ module API
   module V1
     class Base < Grape::API
       use ActionDispatch::RemoteIp
+      use ::WineBouncer::OAuth2
       # common Grape settings
       prefix :api
       version 'v1', using: :path

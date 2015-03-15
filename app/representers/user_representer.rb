@@ -3,7 +3,7 @@ module UserRepresenter
   include Roar::Hypermedia
   include Grape::Roar::Representer
 
-  property :uuid, from: :id
+  property :uuid, as: :id
   property :username
 
   link :self do |opts|
